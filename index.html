@@ -353,6 +353,43 @@ function initLesson(data) {
     slides.pop();
   }
 
+  // Map Common Core codes to your local/state standards
+  const standardMap = {
+    'CCSS.ELA-LITERACY.RL.11-12.1': 'MN ELA 11.4.1.1',
+    'CCSS.ELA-LITERACY.RL.11-12.2': 'MN ELA 11.4.2.2',
+    'CCSS.ELA-LITERACY.RL.11-12.3': 'MN ELA 11.4.3.3',
+    'CCSS.ELA-LITERACY.RL.11-12.6': 'MN ELA 11.4.6.6',
+    'CCSS.ELA-LITERACY.RL.11-12.9': 'MN ELA 11.4.9.9'
+  };
+
+  // Overwrite standard property on each slide dynamically
+  slides.forEach(slide => {
+    if (standardMap[slide.standard]) {
+      slide.standard = standardMap[slide.standard];
+    } else if (slide.standard) {
+      // Fallback string cleanup if standard isn't in map
+      slide.standard = slide.standard.replace('CCSS.ELA-LITERACY.RL.11-12.', 'MN Standard ');
+    }
+  });
+
+  bellringers = data.bellringers || [];
+  totalSlides = slides.length || 1;
+
+  document.getElementById('slide-tracker').innerText = `Slide 1 of ${totalSlides}`;
+
+  renderSlides(slides);
+  renderResources(data.resources || []);
+  renderForm(data.form || []);
+
+  randomizeBellringer();
+}
+  let slides = data.slides || [];
+
+  // Automatically remove the last slide
+  if (slides.length > 0) {
+    slides.pop();
+  }
+
   bellringers = data.bellringers || [];
   totalSlides = slides.length || 1;
 
