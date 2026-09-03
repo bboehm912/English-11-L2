@@ -346,8 +346,26 @@ function renderSlides(slides) {
     `;
     stage.appendChild(wrapper);
   });
+}function initLesson(data) {
+  // Extract slides array
+  let slides = data.slides || [];
+
+  // Remove the last slide automatically
+  if (slides.length > 0) {
+    slides.pop();
+  }
+
+  bellringers = data.bellringers || [];
+  totalSlides = slides.length || 1;
+
+  document.getElementById('slide-tracker').innerText = `Slide 1 of ${totalSlides}`;
+
+  renderSlides(slides);
+  renderResources(data.resources || []);
+  renderForm(data.form || []);
+
+  randomizeBellringer();
 }
-function initLesson(data) {
   bellringers = data.bellringers || [];
   totalSlides = (data.slides || []).length || 1;
 
